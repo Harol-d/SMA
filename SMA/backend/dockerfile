@@ -1,0 +1,17 @@
+FROM python:3.11-slim-bullseye 
+
+WORKDIR /LLM
+
+COPY . /LLM
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Declarar variables de entorno que el contenedor espera
+# ENV PINECONE_API_KEY=""
+# ENV LLM_PROVEEDOR=""
+# ENV LLM_MODEL=""
+# ENV API_KEY=""
+
+
+CMD ["python3", "main.py"]
+

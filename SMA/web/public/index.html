@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMA - Sistema de Monitoreo de Avances</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>SMA</span>
+                </div>
+            </div>
+            <div class="sidebar-content">
+                <button class="sidebar-btn active" data-view="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat con IA</span>
+                </button>
+                <button class="sidebar-btn" data-view="upload">
+                    <i class="fas fa-upload"></i>
+                    <span>Subir Excel</span>
+                </button>
+                <button class="sidebar-btn" data-view="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="sidebar-btn" data-view="analysis">
+                    <i class="fas fa-search"></i>
+                    <span>Análisis</span>
+                </button>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div id="chat-view" class="view active">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2>Asistente SMA</h2>
+                        <p>Pregunta sobre tus proyectos y análisis de avances</p>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message assistant">
+                            <div class="message-content">
+                                <p>¡Hola! Soy tu asistente de SMA (Sistema de Monitoreo de Avances). 🚀</p>
+                                <p><strong>📋 Para análisis completo:</strong> Primero carga un archivo Excel en la sección "Subir Excel"</p>
+                                <p><strong>💬 Luego podrás preguntarme:</strong></p>
+                                <ul>
+                                    <li>¿Qué proyectos están atrasados?</li>
+                                    <li>¿Cuál es el estado del proyecto [nombre]?</li>
+                                    <li>¿Qué tareas tiene pendientes [persona]?</li>
+                                    <li>Analiza los atrasos del proyecto [nombre]</li>
+                                    <li>¿Cuáles son las principales causas de retraso?</li>
+                                </ul>
+                                <p><em>💡 Sin archivo Excel, puedo responder preguntas generales sobre gestión de proyectos.</em></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                            <!-- <button class="send-btn" id="sendBtn"></button> -->
+                            <button class="send-btn" id="sendBtn" id="sendMessageBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            <!-- <button class="send-btn" id="sendBtn" onclick="sendMessage()"> -->         
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload View -->
+            <div id="upload-view" class="view">
+                <div class="content-container">
+                    <div class="content-header">
+                        <h2>Subir Archivo Excel</h2>
+                        <p>Carga tu archivo Excel para analizar los avances de proyectos</p>
+                    </div>
+                    
+                    <!-- Estado del archivo actual -->
+                    <div class="file-status-section" id="fileStatusSection">
+                        <div class="file-info" id="fileInfo" style="display: none;">
+                            <div class="file-details">
+                                <i class="fas fa-file-excel file-icon"></i>
+                                <div class="file-text">
+                                    <h4 id="fileName">archivo.xlsx</h4>
+                                    <p id="fileDetails">Tamaño: 2.5 MB | Cargado: hace 5 min</p>
+                                </div>
+                            </div>
+                            <div class="file-actions">
+                                <button class="btn btn-secondary" id="downloadExcelBtn">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                                <button class="btn btn-danger" id="deleteExcelBtn">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                                <!-- <button class="btn btn-secondary" onclick="downloadExcelFile()">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteExcelFile()">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Área de carga -->
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Arrastra tu archivo Excel aquí</h3>
+                        <p>o haz clic para seleccionar</p>
+                        <input type="file" id="fileInput" accept=".xlsx,.xls" hidden>
+                        <button class="btn btn-primary" id="selectFileBtn">
+                            <i class="fas fa-file-excel"></i> Seleccionar Archivo
+                        </button>
+                        <!-- <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-file-excel"></i> Seleccionar Archivo
+                        </button> -->
+                        <div class="upload-info">
+                            <p><i class="fas fa-info-circle"></i> Formatos soportados: .xlsx, .xls (máximo 10MB)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Barra de progreso -->
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="progress-header">
+                            <span>Subiendo archivo...</span>
+                            <span id="progressText">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Historial de archivos -->
+                    <div class="upload-history">
+                        <h3>Historial de Archivos</h3>
+                        <div class="history-list" id="historyList">
+                            <p class="no-history">No hay archivos cargados previamente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view">
+                <div class="content-container">
+                    <div class="content-header">
+                        <h2>Dashboard de Proyectos</h2>
+                        <p>Visualiza las métricas y estado general de tus proyectos</p>
+                    </div>
+                    
+                    <!-- Métricas principales -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h3 id="total-projects">0</h3>
+                            <p>Proyectos Totales</p>
+                            <div class="metric-trend">
+                                <i class="fas fa-chart-line"></i>
+                                <span>+0% vs mes anterior</span>
+                            </div>
+                        </div>
+                        <div class="metric-card success">
+                            <h3 id="on-track-projects">0</h3>
+                            <p>En Curso</p>
+                            <div class="metric-trend">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+0% vs mes anterior</span>
+                            </div>
+                        </div>
+                        <div class="metric-card warning">
+                            <h3 id="at-risk-projects">0</h3>
+                            <p>En Riesgo</p>
+                            <div class="metric-trend">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Requieren atención</span>
+                            </div>
+                        </div>
+                        <div class="metric-card danger">
+                            <h3 id="delayed-projects">0</h3>
+                            <p>Atrasados</p>
+                            <div class="metric-trend">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>-0% vs mes anterior</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Acción principal -->
+                    <div class="dashboard-actions">
+                        <div class="dashboard-update">
+                            <button class="btn btn-primary" id="updateDashboardBtn">
+                                <i class="fas fa-sync"></i> Actualizar Datos
+                            </button>
+                            <!-- <button class="btn btn-primary" onclick="loadDashboard()">
+                                <i class="fas fa-sync"></i>
+                                Actualizar Datos
+                            </button> -->
+                            <p>Sincroniza las métricas con el archivo Excel cargado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis View -->
+            <div id="analysis-view" class="view">
+                <div class="content-container">
+                    <div class="content-header">
+                        <h2>Análisis de Proyectos</h2>
+                        <p>Herramientas de análisis específico</p>
+                    </div>
+                    <div class="analysis-controls">
+                        <div class="control-group">
+                            <label for="projectFilter">Proyecto:</label>
+                            <input type="text" id="projectFilter" placeholder="Nombre del proyecto (opcional)">
+                        </div>
+                        <div class="control-group">
+                            <label for="assigneeFilter">Asignado:</label>
+                            <input type="text" id="assigneeFilter" placeholder="Nombre del asignado (opcional)">
+                        </div>
+                    </div>
+                    <div class="analysis-buttons">
+                        <button class="btn btn-primary analyze-btn" data-action="delays">
+                            <i class="fas fa-clock"></i> Analizar Atrasos
+                        </button>
+                        <button class="btn btn-primary analyze-btn" data-action="pending">
+                            <i class="fas fa-tasks"></i> Tareas Pendientes
+                        </button>
+                        <button class="btn btn-primary analyze-btn" data-action="summary">
+                            <i class="fas fa-chart-bar"></i> Resumen de Proyecto
+                        </button>
+                        <!-- <button class="btn btn-primary" data-action="delays">
+                            <i class="fas fa-clock"></i> Analizar Atrasos
+                        </button>
+                        <button class="btn btn-primary" data-action="pending">
+                            <i class="fas fa-tasks"></i> Tareas Pendientes
+                        </button>
+                        <button class="btn btn-primary" data-action="summary">
+                            <i class="fas fa-chart-bar"></i> Resumen de Proyecto
+                        </button> -->
+                    </div>
+                    <!-- <div class="analysis-buttons">
+                        <button class="btn btn-primary" onclick="analyzeDelays()">
+                            <i class="fas fa-clock"></i> Analizar Atrasos
+                        </button>
+                        <button class="btn btn-primary" onclick="analyzePendingTasks()">
+                            <i class="fas fa-tasks"></i> Tareas Pendientes
+                        </button>
+                        <button class="btn btn-primary" onclick="getProjectSummary()">
+                            <i class="fas fa-chart-bar"></i> Resumen de Proyecto
+                        </button>
+                    </div> -->
+                    <div id="analysisResults" class="analysis-results">
+                        <p>Selecciona un tipo de análisis para ver los resultados</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    
+</body>
+</html>
+
