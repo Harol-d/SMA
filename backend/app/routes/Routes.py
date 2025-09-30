@@ -7,7 +7,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from app.services.excel_processing_service import ExcelProcessingService
 from app.services.project_analysis_service import ProjectAnalysisService
 from app.services.search_service import SearchService
-from app.services.dashboard_service import DashboardService
 from app.services.file_upload_service import FileUploadService
 
 # Inicializar Blueprint
@@ -17,11 +16,9 @@ api = Blueprint('api', __name__)
 excel_service = ExcelProcessingService()
 project_service = ProjectAnalysisService()
 search_service = SearchService()
-dashboard_service = DashboardService()
 upload_service = FileUploadService()
 
 # Endpoints de la API
-
 @api.route("/response", methods=["POST"])
 def index():
     """Endpoint principal para consultas al LLM"""
@@ -49,8 +46,8 @@ def sma_agent_chat():
         if not user_text or not user_text.strip():
             return jsonify({"success": False, "message": "Consulta vacía"}), 400
         
-        print(f"📝 Texto de consulta: {user_text}")
-        print(f"🔗 ID de conversación: {conversation_id}")
+        print(f"Texto de consulta: {user_text}")
+        print(f"ID de conversación: {conversation_id}")
         
         # Preparar prompt en formato esperado por el LLM
         prompt_data = {"prompt": user_text.strip()}
@@ -58,7 +55,7 @@ def sma_agent_chat():
         # Procesar consulta con acceso a datos vectorizados
         response = search_service.llm_query(prompt_data)
         
-        print(f"✅ Respuesta generada exitosamente")
+        print(f"Respuesta generada exitosamente")
         
         # Respuesta en formato esperado por el frontend
         return jsonify({
@@ -112,36 +109,16 @@ def upload_excel():
         return jsonify(result)
             
     except Exception as e:
-        print(f"💥 ERROR CRÍTICO: {str(e)}")
+        print(f" ERROR CRÍTICO: {str(e)}")
         # Debug adicional para identificar el problema
         import traceback
         error_details = traceback.format_exc()
-        print(f"📋 DETALLES DEL ERROR:\n{error_details}")
+        print(f" DETALLES DEL ERROR:\n{error_details}")
         
         return jsonify({
             "success": False, 
             "message": f"Error procesando archivo: {str(e)}"
         }), 500
-
-# @api.route("/upload_excel", methods=["POST"])
-# def upload_excel():
-#     """Sube y procesa archivos Excel para análisis de proyectos"""
-#     try:
-#         print(f"📤 Recibida solicitud de carga de Excel")
-#         print(f"📤 Archivos en request: {list(request.files.keys())}")
-#         print(f"📤 Content-Type: {request.content_type}")
-        
-#         result = upload_service.upload_excel_file(request)
-        
-#         if result["success"]:
-#             print(f"✅ Archivo procesado exitosamente: {result.get('data', {}).get('filename', 'unknown')}")
-#             return jsonify(result)
-#         else:
-#             print(f"❌ Error en el procesamiento: {result['message']}")
-#             return jsonify(result), 400 if "No se encontró" in result["message"] or "No se seleccionó" in result["message"] or "Solo archivos" in result["message"] or "No se encontraron datos" in result["message"] else 500
-#     except Exception as e:
-#         print(f"❌ Error crítico en upload_excel: {str(e)}")
-#         return jsonify({"success": False, "message": f"Error crítico: {str(e)}"}), 500
 
 @api.route("/search", methods=["POST"])
 def search():
@@ -212,20 +189,6 @@ def project_summary():
         else:
             status_code = 400 if "no puede estar vacío" in result["message"] else 404 if "No se encontraron" in result["message"] else 500
             return jsonify(result), status_code
-        
-    except Exception as e:
-        return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
-
-@api.route("/dashboard", methods=["GET"])
-def dashboard():
-    """Métricas consolidadas del dashboard"""
-    try:
-        result = dashboard_service.get_dashboard_metrics()
-        
-        if result["success"]:
-            return jsonify(result)
-        else:
-            return jsonify(result), 500
         
     except Exception as e:
         return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
