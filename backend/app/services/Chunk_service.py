@@ -11,15 +11,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
 from Controllers.LmmController import lmmController
 from Models.databaseVectorModel import databaseVectormodel
 
-
-class SearchService:
+class ChunksService:
     """Servicio especializado en búsquedas semánticas"""
     
     def __init__(self):
         self.llm_controller = lmmController()
         self.db_model = databaseVectormodel()
     
-    def semantic_search(self, query_text: str, top_k: int = 10) -> Dict[str, Any]:
+    def similarity_search(self, query_text: str, top_k: int = 10) -> Dict[str, Any]:
         """Búsqueda semántica en los datos vectorizados"""
         try:
             if not query_text or not query_text.strip():

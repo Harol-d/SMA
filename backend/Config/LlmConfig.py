@@ -3,14 +3,13 @@ from typing import Optional
 import os
 import dotenv
 
-# dotenv.load_dotenv("../.env")
 dotenv.load_dotenv("../../.env")
 
 @dataclass
 class SettingsLlm:
     LLM_PROVEEDOR: Optional[str] = os.getenv("LLM_PROVEEDOR")
     LLM_MODEL: Optional[str] = os.getenv("LLM_MODEL")
-    API_KEY: Optional[str] = os.getenv("API_KEY") 
+    API_KEY: Optional[str] = os.getenv("API_KEY")
     modelRole: str = f"""
                 Eres un Project Manager Senior especializado en análisis de proyectos y gestión de equipos.  
                 Tu función es analizar datos de avances de proyectos, identificar atrasos, y proporcionar insights accionables para la toma de decisiones.

@@ -106,16 +106,6 @@ class ExcelProcessingService:
         
         return validation_result
     
-    def extract_percentage(self, value: str) -> float:
-        """Extrae porcentaje de un string"""
-        if isinstance(value, (int, float)):
-            return float(value)
-        
-        numbers = re.findall(r'(\d+(?:\.\d+)?)\s*%?', str(value))
-        if numbers:
-            return min(100, max(0, float(numbers[0])))
-        return None
-    
     def analyze_delays_in_notes(self, notes: str) -> List[str]:
         """Analiza las notas para identificar razones de atrasos"""
         delay_indicators = [
@@ -187,7 +177,6 @@ class ExcelProcessingService:
             
             # Validar que el valor no esté vacío
             is_valid_value = value and value not in ['', 'nan', 'NaN', 'None', 'null']
-            
             if is_valid_value:
                 if any(field in col_lower for field in assignee_fields):
                     project_data['assignee'] = value

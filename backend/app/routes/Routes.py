@@ -86,40 +86,6 @@ def eliminar():
     except Exception as e:
         return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
     
-@api.route("/upload_excel", methods=["POST"])
-def upload_excel():
-    """Sube y procesa archivos Excel para análisis de proyectos"""
-    try:
-        print("=== INICIANDO UPLOAD EXCEL ===")
-        
-        if 'file' not in request.files:
-            return jsonify({"success": False, "message": "No se encontró archivo"}), 400
-        
-        file = request.files['file']
-        print(f"Archivo recibido: {file.filename}")
-        
-        if file.filename == '':
-            return jsonify({"success": False, "message": "No se seleccionó archivo"}), 400
-        
-        # DEBUG: Verificar que el servicio se inicializa
-        print("Llamando a upload_service...")
-        result = upload_service.upload_excel_file(request)
-        print("Servicio ejecutado correctamente")
-        
-        return jsonify(result)
-            
-    except Exception as e:
-        print(f" ERROR CRÍTICO: {str(e)}")
-        # Debug adicional para identificar el problema
-        import traceback
-        error_details = traceback.format_exc()
-        print(f" DETALLES DEL ERROR:\n{error_details}")
-        
-        return jsonify({
-            "success": False, 
-            "message": f"Error procesando archivo: {str(e)}"
-        }), 500
-
 @api.route("/search", methods=["POST"])
 def search():
     """Búsqueda semántica en los datos vectorizados"""
@@ -127,7 +93,7 @@ def search():
         data = request.get_json()
         
         if not data or 'query' not in data:
-            return jsonify({"success": False, "message": "Se requiere 'query'"}), 400
+            return jsonify({"success": False, "message": "S"}), 400
         
         query_text = data['query']
         top_k = data.get('top_k', 10)

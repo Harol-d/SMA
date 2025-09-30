@@ -10,7 +10,7 @@ class lmmController:
     def __init__(self):
         self.model = ModeLlm()
         self.database = dataBaseVectorController()
-        self.db_model = databaseVectormodel()  # Acceso directo al modelo de base de datos vectorial
+        self.db_model = databaseVectormodel()
     
     def promptValidate(self, data: dict):
         try:
