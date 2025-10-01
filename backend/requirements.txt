@@ -1,29 +1,21 @@
 # LLM - Versiones específicas para compatibilidad con pydantic v2
-langchain>=0.3.0
-langchain-community>=0.3.0
-langchain-experimental>=0.3.0
-langchain-google-genai>=2.0.0
-langchain-text-splitters>=0.3.0
-langchain-pinecone>=0.2.0
-langchain-huggingface>=0.1.0
+langchain
+langchain-community
+langchain-google-genai
+langchain-text-splitters
+langchain-pinecone
+langchain-huggingface
 
 # Pydantic v2 para evitar advertencias de deprecación
-pydantic>=2.0.0
+pydantic
 
 # API
-flask>=2.3.0
-requests>=2.31.0
-flask-cors>=4.0.0
-werkzeug>=2.3.0
-
-# Data Processing
-pandas
-numpy
-openpyxl
+flask
+requests
+flask-cors
 
 # Embedding
 sentence-transformers
-google-generativeai
 
 # Database Vector
 pinecone
