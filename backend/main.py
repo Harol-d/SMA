@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 import sys
 import os
@@ -9,7 +9,7 @@ from app.routes.Routes import api
 app = Flask(__name__)
 
 # Configuración básica
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+#app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # CORS configurado para desarrollo
 CORS(app, origins=[
@@ -25,6 +25,10 @@ def too_large(e):
 @app.errorhandler(500)
 def internal_error(e):
     return jsonify({"success": False, "message": "Error interno del servidor"}), 500
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"success": False, "message": "Página no encontrada"}), 404
 
 app.register_blueprint(api, url_prefix='/api')
 
