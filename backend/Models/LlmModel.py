@@ -1,4 +1,3 @@
-# from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -20,10 +19,7 @@ class ModeLlm(SettingsLlm):
         self.max_messages = 6  # Limitar a 6 mensajes (3 intercambios)
 
     def sendPrompt(self, prompt: str, context: str):
-        # Obtener historial de conversación
-        # messages_history = self.chat_history.messages
-        
-        # Crear template con historial
+        # Crear template de mensajes
         messages = [
             ("system", self.modelRole),
             ("system", "You must respond guided only by the following context: {context}"),

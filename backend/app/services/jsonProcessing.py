@@ -1,14 +1,3 @@
-# Funcion Normalize_text - Ayuda de DeepSeek
-    # def normalize_text(self, text: str) -> str:
-    #     """Normaliza y limpia texto"""
-    #     if not text:
-    #         return ""
-        
-    #     # Eliminar caracteres extraños y normalizar espacios
-    #     text = re.sub(r'\s+', ' ', text.strip())
-    #     # Esto Elimina los caracteres no ASCII
-    #     text = re.sub(r'[^\x00-\x7F]+', ' ', text)
-    #     return text
 """
 Servicio de conversión de documentos a JSON
 Convierte archivos XLS, XLSX y PDF a formato JSON para embeddings
@@ -273,13 +262,56 @@ class ConvertDocJSON:
             
             raise Exception(f"Error procesando documento: {error_details}")
 
+    def process_document(self, file_path: str) -> Dict[str, Any]:
+        """Procesa documento completo y devuelve resultado estructurado para FileUploadService"""
+        try:
+            # Validar archivo
+            if not self.allowed_file(file_path):
+                return {
+                    'success': False,
+                    'error': f'Tipo de archivo no permitido. Formatos válidos: {", ".join(self.allowed_extensions)}'
+                }
+            
+            # Procesar documento a vectores
+            vectors_data = self.process_document_to_vectors(file_path)
+            
+            # Crear chunks para embedding
+            embedding_chunks = []
+            for vector_data in vectors_data:
+                chunk = {
+                    'chunk_id': vector_data['id'],
+                    'content': vector_data['text'],
+                    'metadata': vector_data['metadata']
+                }
+                embedding_chunks.append(chunk)
+            
+            # Crear documento principal
+            document = {
+                'document_id': f"doc_{uuid.uuid4().hex[:8]}",
+                'file_path': file_path,
+                'file_name': os.path.basename(file_path),
+                'file_type': file_path.rsplit('.', 1)[1].lower(),
+                'total_chunks': len(embedding_chunks),
+                'processing_time': datetime.now().isoformat()
+            }
+            
+            # Información de procesamiento
+            processing_info = {
+                'file_type': document['file_type'],
+                'total_chunks': document['total_chunks'],
+                'processing_time': document['processing_time']
+            }
+            
+            return {
+                'success': True,
+                'document': document,
+                'embedding_chunks': embedding_chunks,
+                'processing_info': processing_info
+            }
+            
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
 
-# Para mantener compatibilidad con el código existente
-def process_document(file_path: str) -> Dict[str, Any]:
-    """Función de compatibilidad para reemplazar process_excel_to_vectors"""
-    converter = ConvertDocJSON()
-    try:
-        vectors_data = converter.process_document_to_vectors(file_path)
-        return vectors_data
-    except Exception as e:
-        raise e

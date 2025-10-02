@@ -3,13 +3,17 @@ from typing import Optional
 import os
 import dotenv
 
-dotenv.load_dotenv("../../.env")
+# Intentar cargar .env, pero continuar si no existe
+try:
+    dotenv.load_dotenv("../../.env")
+except:
+    pass
 
 @dataclass
 class SettingsLlm:
-    LLM_PROVEEDOR: Optional[str] = os.getenv("LLM_PROVEEDOR")
-    LLM_MODEL: Optional[str] = os.getenv("LLM_MODEL")
-    API_KEY: Optional[str] = os.getenv("API_KEY")
+    LLM_PROVEEDOR: Optional[str] = os.getenv("LLM_PROVEEDOR") or "gemini"
+    LLM_MODEL: Optional[str] = os.getenv("LLM_MODEL") or "gemini-1.5-flash"
+    API_KEY: Optional[str] = os.getenv("API_KEY") or "demo_key"
     modelRole: str = f"""
                         Eres un Project Manager Senior. 
                         Analiza datos de avances de proyectos y entrega un resumen ejecutivo breve, máximo 2 viñetas o 100 palabras, solo con lo crítico o importante para la toma de decisiones.
