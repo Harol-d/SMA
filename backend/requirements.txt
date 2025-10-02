@@ -23,5 +23,12 @@ pinecone
 # Environment
 python-dotenv
 
+# Excel processing
+pandas
+openpyxl
+
+# PDF processing
+pdfplumber
+
 # OpenAI (comentado para uso futuro)
 # openai
