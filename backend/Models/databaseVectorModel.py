@@ -14,12 +14,17 @@ class databaseVectormodel (PineconeConfig):
         # Convertir chunks a formato de vectores para usar Gemini
         vectors = []
         for i, chunk in enumerate(chunks):
+            # Adaptar para chunks que vienen de FileUploadService (estructura: id, content, metadata)
+            chunk_id = chunk.get('id', f"chunk_{i}_{uuid.uuid4().hex[:8]}")
+            chunk_text = chunk.get('content', '')  # Usar 'content' en lugar de 'page_content'
+            chunk_metadata = chunk.get('metadata', {})
+            
             vectors.append({
-                'id': f"chunk_{i}_{uuid.uuid4().hex[:8]}",
-                'text': chunk.page_content,
-                'metadata': chunk.metadata
+                'id': chunk_id,
+                'text': chunk_text,
+                'metadata': chunk_metadata
             })
-            print(vectors)
+            print(f"Vector {i}: {chunk_id} - {chunk_text[:50]}...")
         
         return self.upsert_vectors(vectors)
     

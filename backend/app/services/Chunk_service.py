@@ -7,7 +7,7 @@ class ChunksService:
         self.size = size
         self.overlap = overlap
     
-    def crearChunks(self,documento:str):
+    def crearChunks(self,documentos):
         try:
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=self.size,
@@ -15,7 +15,7 @@ class ChunksService:
                 length_function=len
             )
         
-            chunks = text_splitter.split_documents(documento)
+            chunks = text_splitter.split_documents(documentos)
             return chunks
         except Exception as e:
             return {"success": False, "message": f"Error al crear chunks: {str(e)}"}
