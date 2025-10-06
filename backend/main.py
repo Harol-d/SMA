@@ -22,13 +22,17 @@ CORS(app, origins=[
 def too_large(e):
     return jsonify({"success": False, "message": "Archivo demasiado grande"}), 413
 
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return jsonify({"success": False, "message": "Metodo no permitido"}), 405
+
 @app.errorhandler(500)
 def internal_error(e):
     return jsonify({"success": False, "message": "Error interno del servidor"}), 500
 
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({"success": False, "message": "Página no encontrada"}), 404
+    return jsonify({"success": False, "message": "Pagina no encontrada"}), 404
 
 app.register_blueprint(api, url_prefix='/api')
 
