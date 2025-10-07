@@ -517,7 +517,7 @@ body {
 
 .file-text p {
     margin: 0;
-    color: #047857;
+    color: #ed1e1e;
     font-size: 14px;
 }
 
@@ -583,7 +583,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background-color: #10a37f;
+    background-color: #fe0000;
     border-radius: 4px;
     transition: width 0.3s ease;
     width: 0%;
