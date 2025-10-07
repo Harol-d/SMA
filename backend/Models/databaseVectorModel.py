@@ -1,35 +1,23 @@
 from pinecone import Pinecone
 from langchain_pinecone import PineconeVectorStore
 from Config.dataBaseConfig import PineconeConfig
-import uuid
+# import uuid
 
 
 class databaseVectormodel (PineconeConfig):
     def __init__(self):
         super().__init__() 
         self.pinecone = Pinecone(api_key=self.PINECONE_API_KEY)
-        self.index = "smaccb-pruebas1024"
-
+    
     def agregarRecords(self, chunks: list):
-        # Convertir chunks a formato de vectores para usar Gemini
-        vectors = []
-        for i, chunk in enumerate(chunks):
-            # Adaptar para chunks que vienen de FileUploadService (estructura: id, content, metadata)
-            chunk_id = chunk.get('id', f"chunk_{i}_{uuid.uuid4().hex[:8]}")
-            chunk_text = chunk.get('content', '')  # Usar 'content' en lugar de 'page_content'
-            chunk_metadata = chunk.get('metadata', {})
-            
-            vectors.append({
-                'id': chunk_id,
-                'text': chunk_text,
-                'metadata': chunk_metadata
-            })
-            print(f"Vector {i}: {chunk_id} - {chunk_text[:50]}...")
-        
-        return self.upsert_vectors(vectors)
+        resultado = PineconeVectorStore.from_documents(
+        chunks,
+        embedding=self.model,
+        index_name=self.INDEX)
+        return resultado
     
     def eliminarRecords(self):
-        index = self.pinecone.Index(self.index)
+        index = self.pinecone.Index(self.INDEX)
         index.delete(delete_all=True)
         return {
             "success": True,

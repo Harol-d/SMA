@@ -27,8 +27,7 @@ python-dotenv
 pandas
 openpyxl
 
-# PDF processing
-pdfplumber
+pypdf
 
 # OpenAI (comentado para uso futuro)
 # openai

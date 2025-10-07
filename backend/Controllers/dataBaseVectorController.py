@@ -3,8 +3,7 @@ class dataBaseVectorController:
     def __init__(self):
         self.dbvector = databaseVectormodel()
     
-    def insertarChunks(self, chunks: list):
-        print(chunks)
+    def insertarChunks(self, chunks: dict):
         response = self.dbvector.agregarRecords(chunks)
         return response
 

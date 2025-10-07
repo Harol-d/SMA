@@ -1,16 +1,22 @@
-from pickletools import read_uint1
 from app.services.FileUploadService import FileUploadService
+from app.services.Chunk_service import ChunksService
+
 
 class fileController:
-    def __init__(self,file: dict):
-        self.file = file.get("file")
-        self.validate = False
+    def __init__(self, archivo):
+        self.file = archivo
         self.file_service = FileUploadService()
+        self.chunk = ChunksService(size=5000, overlap=20)
+        self.route = "uploads"
 
     def cargarArchivo(self):
-        self.validate = self.file_service.validateFile(self.file)
-        if self.validate:
-            return self.file_service.ArchiveToChunks(self.file)
-        else:
-            return self.validate
+            # Validar el archivo
+        validate = self.file_service.validateFile(self.file)
+        if validate['success']:
+            self.route = self.file_service.guardarArchivo(self.file, self.route)
+            chunks = self.chunk.ArchiveToChunks(self.route)
+            return chunks
+            
+        return validate
 
+    
