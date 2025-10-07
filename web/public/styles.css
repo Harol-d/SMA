@@ -40,8 +40,15 @@ body {
     font-weight: bold;
 }
 
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .logo i {
-    color: #10a37f;
+    color: #a31710;
     font-size: 20px;
 }
 
@@ -72,7 +79,7 @@ body {
 }
 
 .sidebar-btn.active {
-    background-color: #10a37f;
+    background-color: #c5101f;
     color: white;
 }
 
@@ -220,7 +227,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #10a37f;
+    background-color: #de1212;
     border: none;
     color: white;
     cursor: pointer;
@@ -254,12 +261,12 @@ body {
 }
 
 .btn-primary {
-    background-color: #10a37f;
+    background-color: #c90c38;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #0d8f6e;
+    background-color: #f73d3d;
 }
 
 .btn-secondary {
@@ -286,7 +293,7 @@ body {
     width: 20px;
     height: 20px;
     border: 2px solid #f3f3f3;
-    border-top: 2px solid #10a37f;
+    border-top: 2px solid #d21c49;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -344,12 +351,12 @@ body {
 
 .upload-area .fas.fa-cloud-upload-alt {
     font-size: 48px;
-    color: #10a37f;
+    color: #dc2626;
     margin-bottom: 16px;
 }
 
 .upload-area:hover {
-    border-color: #10a37f;
+    border-color: #dc2626;
 }
 
 .upload-area h3 {
@@ -534,7 +541,7 @@ body {
 
 .upload-info i {
     margin-right: 8px;
-    color: #10a37f;
+    color: #ef4444;
 }
 
 /* Upload History */

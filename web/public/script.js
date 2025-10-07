@@ -453,7 +453,7 @@ const showErrorMessage = (message) => showToast(message, 'error');
 // ========== FUNCIONALIDAD DE EXCEL ==========
 
 // Variables para historial de archivos
-let fileHistory = JSON.parse(localStorage.getItem('sma_file_history') || '[]');
+// let fileHistory = JSON.parse(localStorage.getItem('sma_file_history') || '[]');
 
 // Inicializar funcionalidad de Excel
 function initializeExcelUpload() {
@@ -471,7 +471,7 @@ function initializeExcelUpload() {
     }
     
     // Cargar historial al inicializar
-    loadFileHistory();
+    // loadFileHistory();
     
     // Verificar si hay archivo actual
     updateFileStatus();
@@ -617,7 +617,7 @@ async function processExcelFile(file) {
         };
         
         // Agregar al historial
-        addToFileHistory(currentExcelFile);
+        // addToFileHistory(currentExcelFile);
         
         // Actualizar UI
         hideUploadProgress();
@@ -786,116 +786,116 @@ function downloadExcelFile() {
 }
 
 // Agregar al historial
-function addToFileHistory(fileInfo) {
-    const historyItem = {
-        id: Date.now(),
-        name: fileInfo.name,
-        size: fileInfo.size,
-        uploadDate: fileInfo.uploadDate,
-        status: 'completed'
-    };
+// function addToFileHistory(fileInfo) {
+//     const historyItem = {
+//         id: Date.now(),
+//         name: fileInfo.name,
+//         size: fileInfo.size,
+//         uploadDate: fileInfo.uploadDate,
+//         status: 'completed'
+//     };
     
-    // Agregar al inicio del array
-    fileHistory.unshift(historyItem);
+//     // Agregar al inicio del array
+//     fileHistory.unshift(historyItem);
     
-    // Mantener solo los últimos 10
-    fileHistory = fileHistory.slice(0, 10);
+//     // Mantener solo los últimos 10
+//     fileHistory = fileHistory.slice(0, 10);
     
-    // Guardar en localStorage
-    localStorage.setItem('sma_file_history', JSON.stringify(fileHistory));
+//     // Guardar en localStorage
+//     // localStorage.setItem('sma_file_history', JSON.stringify(fileHistory));
     
-    // Actualizar UI
-    loadFileHistory();
-}
+//     // Actualizar UI
+//     loadFileHistory();
+// }
 
 // Cargar historial de archivos
-function loadFileHistory() {
-    const historyList = document.getElementById('historyList');
-    if (!historyList) return;
+// function loadFileHistory() {
+//     const historyList = document.getElementById('historyList');
+//     if (!historyList) return;
     
-    if (fileHistory.length === 0) {
-        historyList.innerHTML = '<p class="no-history">No hay archivos cargados previamente</p>';
-        return;
-    }
+//     if (fileHistory.length === 0) {
+//         historyList.innerHTML = '<p class="no-history">No hay archivos cargados previamente</p>';
+//         return;
+//     }
     
-    const historyHTML = fileHistory.map(item => `
-        <div class="history-item">
-            <div class="history-details">
-                <i class="fas fa-file-excel"></i>
-                <div>
-                    <div class="history-text">${item.name}</div>
-                    <div class="history-date">${formatTimeAgo(new Date(item.uploadDate))}</div>
-                </div>
-            </div>
-            <div class="history-actions">
-                <button class="btn btn-sm btn-secondary" onclick="reloadFromHistory('${item.id}')">
-                    <i class="fas fa-redo"></i>
-                </button>
-            </div>
-        </div>
-    `).join('');
+//     const historyHTML = fileHistory.map(item => `
+//         <div class="history-item">
+//             <div class="history-details">
+//                 <i class="fas fa-file-excel"></i>
+//                 <div>
+//                     <div class="history-text">${item.name}</div>
+//                     <div class="history-date">${formatTimeAgo(new Date(item.uploadDate))}</div>
+//                 </div>
+//             </div>
+//             <div class="history-actions">
+//                 <button class="btn btn-sm btn-secondary" onclick="reloadFromHistory('${item.id}')">
+//                     <i class="fas fa-redo"></i>
+//                 </button>
+//             </div>
+//         </div>
+//     `).join('');
     
-    historyList.innerHTML = historyHTML;
-}
+//     historyList.innerHTML = historyHTML;
+// }
 
 // Recargar desde historial
-function reloadFromHistory(itemId) {
-    try {
-        const historyItem = fileHistory.find(item => item.id.toString() === itemId.toString());
+// function reloadFromHistory(itemId) {
+//     try {
+//         const historyItem = fileHistory.find(item => item.id.toString() === itemId.toString());
         
-        if (!historyItem) {
-            showErrorMessage('Archivo no encontrado en el historial');
-            return;
-        }
+//         if (!historyItem) {
+//             showErrorMessage('Archivo no encontrado en el historial');
+//             return;
+//         }
         
-        // Verificar si el archivo original aún existe
-        const originalPath = historyItem.originalPath;
-        if (!originalPath) {
-            showErrorMessage('Ruta del archivo original no disponible');
-            return;
-        }
+//         // Verificar si el archivo original aún existe
+//         const originalPath = historyItem.originalPath;
+//         if (!originalPath) {
+//             showErrorMessage('Ruta del archivo original no disponible');
+//             return;
+//         }
         
-        // Mostrar confirmación al usuario
-        const confirmReload = confirm(`¿Deseas recargar "${historyItem.name}"?\n\nEsto reemplazará el archivo actual y procesará nuevamente los datos.`);
+//         // Mostrar confirmación al usuario
+//         const confirmReload = confirm(`¿Deseas recargar "${historyItem.name}"?\n\nEsto reemplazará el archivo actual y procesará nuevamente los datos.`);
         
-        if (!confirmReload) {
-            return;
-        }
+//         if (!confirmReload) {
+//             return;
+//         }
         
-        showLoading('Recargando archivo desde historial...');
+//         showLoading('Recargando archivo desde historial...');
         
-        // Simular recarga del archivo (en un caso real, necesitarías acceso al archivo original)
-        setTimeout(() => {
-            try {
-                // Actualizar archivo actual con datos del historial
-                currentExcelFile = {
-                    name: historyItem.name,
-                    size: historyItem.size,
-                    uploadDate: new Date(), // Nueva fecha de carga
-                    data: historyItem.data || null,
-                    reloadedFrom: itemId
-                };
+//         // Simular recarga del archivo (en un caso real, necesitarías acceso al archivo original)
+//         setTimeout(() => {
+//             try {
+//                 // Actualizar archivo actual con datos del historial
+//                 currentExcelFile = {
+//                     name: historyItem.name,
+//                     size: historyItem.size,
+//                     uploadDate: new Date(), // Nueva fecha de carga
+//                     data: historyItem.data || null,
+//                     reloadedFrom: itemId
+//                 };
                 
-                // Actualizar UI
-                updateFileStatus();
-                hideLoading();
-                showSuccessMessage(`Archivo "${historyItem.name}" recargado desde historial`);
+//                 // Actualizar UI
+//                 updateFileStatus();
+//                 hideLoading();
+//                 showSuccessMessage(`Archivo "${historyItem.name}" recargado desde historial`);
                 
-                // Cambiar a vista de upload para mostrar el archivo cargado
-                switchView('upload');
+//                 // Cambiar a vista de upload para mostrar el archivo cargado
+//                 switchView('upload');
                 
-            } catch (error) {
-                console.error('Error al recargar desde historial:', error);
-                hideLoading();
-                showErrorMessage('Error al recargar el archivo desde historial');
-            }
-        }, 1500);
+//             } catch (error) {
+//                 console.error('Error al recargar desde historial:', error);
+//                 hideLoading();
+//                 showErrorMessage('Error al recargar el archivo desde historial');
+//             }
+//         }, 1500);
         
-    } catch (error) {
-        console.error('Error en reloadFromHistory:', error);
-        showErrorMessage('Error al acceder al historial de archivos');
-    }
-}
+//     } catch (error) {
+//         console.error('Error en reloadFromHistory:', error);
+//         showErrorMessage('Error al acceder al historial de archivos');
+//     }
+// }
 
 // Formatear tiempo transcurrido
 function formatTimeAgo(date) {
