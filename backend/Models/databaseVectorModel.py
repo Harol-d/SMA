@@ -26,6 +26,6 @@ class databaseVectormodel (PineconeConfig):
     
     def consultarRecords(self):
         # Usar búsqueda semántica con Gemini
-        vstore = PineconeVectorStore.from_existing_index(index_name=self.index, embedding=self.Modelo)
+        vstore = PineconeVectorStore.from_existing_index(index_name=self.INDEX, embedding=self.model)
         print(vstore)
         return vstore
