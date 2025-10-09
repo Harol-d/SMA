@@ -1,0 +1,37 @@
+# LLM - Versiones específicas para compatibilidad con pydantic v2
+langchain
+langchain-community
+langchain-google-genai
+langchain-text-splitters
+langchain-pinecone
+langchain-huggingface
+
+# Pydantic v2 para evitar advertencias de deprecación
+pydantic
+
+# API
+flask
+requests
+flask-cors
+
+# Embedding
+sentence-transformers
+
+# Database Vector
+pinecone
+
+# Environment
+python-dotenv
+
+# Excel processing
+pandas
+openpyxl
+
+# PDF processing
+pypdf
+
+# Word processing
+python-docx
+
+# OpenAI (comentado para uso futuro)
+# openai
